@@ -252,8 +252,10 @@ do_program_keymaps() {
   write_indicators_to_temp_file
   copy_temp_indicators_to_vdrive
 
-  printf "Ensure Profile 1 is activated by pressing [SmartSet + 1].\n"
-  printf "You may unmount the v-Drive by pressing [SmartSet + v-Drive].\n"
+  printf "Follow these post-programming steps:\n"
+  printf "    1. Unmount the v-Drive.\n"
+  printf "    2. Denumerate the v-Drive by pressing [SmartSet + v-Drive].\n"
+  printf "    3. Ensure Profile 1 is activated by pressing [SmartSet + 1].\n"
 }
 
 # MAIN SCRIPT:
