@@ -33,6 +33,8 @@ Configure an attached Kinesis Advantage360 keyboard with custom keymaps.
 
 ## Requirements
 
+* The Advantage360 keyboard is a non-"pro" variant, which uses SmartSet
+  programming, not the newer ZMK programming.
 * The Advantage360 keyboard is attached to the system, via USB or Bluetooth.
 * The keyboard's v-Drive has been exposed as a USB device, via pressing the
   _Smartset_ + _v-Drive_ keys.
