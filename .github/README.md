@@ -100,61 +100,63 @@ Macro remap of left shift key to produce an underscore:
 
 ### Commonly Remapped Key Names
 
-* `hyph` : - and _
-* `eql`  : = and +
-* `obrk` : [ and {
-* `cbrk` : ] and }
-* `comm` : , and <
-* `perd` : . and >
-* `fsls` : / and ?
-* `bsls` : \ and |
-* `apos` : ‘ and “
-* `scol` : ; and :
-* `grav` : Grave and ~
-* `caps` : Caps Lock
-* `tab`  : Tab
-* `spc`  : Spacebar
-* `ent`  : Return
-* `del`  : Delete
-* `esc`  : Escape
-* `bspc` : Delete
-* `home` : Home
-* `end`  : End
-* `pgup` : Page Up
-* `pgdn` : Page Down
-* `left` : Left Arrow
-* `down` : Down Arrow
-* `paus` : Pause
-* `ins`  : Insert
-* `sclk` : Scroll Lock
-* `prnt` : Print Screen
-* `rght` : Right Arrow
-* `up`   : Up Arrow
-* `nmlk` : Num Lock
-* `mute` : Mute
-* `vol+` : Volume Up
-* `vol-` : Volume Down
-* `plpa` : Play / Pause
-* `lshf` : Left Shift
-* `rshf` : Right Shift
-* `lctr` : Left Control
-* `rctr` : Right Control
-* `lalt` : Left Alt
-* `ralt` : Right Alt
-* `lwin` : Left Gui
-* `rwin` : Right Gui
-* `keys` : Keypad Layer Shift
-* `keyt` : Keypad Layer Toggle
-* `fn1s` : FN1 Layer Shift
-* `fn1t` : FN1 Layer Toggle
-* `fn2s` : FN2 Layer Shift
-* `fn2t` : FN2 Layer Toggle
-* `fn3s` : FN3 Layer Shift
-* `fn3t` : FN3 Layer Toggle
-* `hk1`  : Hotkey 1
-* `hk2`  : Hotkey 2
-* `hk3`  : Hotkey 3
-* `hk4`  : Hotkey 4
+| Key    | Description         |
+| :---   | :---                |
+| _hyph_ | `-` and `_`         |
+| _eql_  | `=` and `+`         |
+| _obrk_ | `[` and `{`         |
+| _cbrk_ | `]` and `}`         |
+| _comm_ | `,` and `<`         |
+| _perd_ | `.` and `>`         |
+| _fsls_ | `/` and `?`         |
+| _bsls_ | `\` and `|`         |
+| _apos_ | `‘` and `“`         |
+| _scol_ | `;` and `:`         |
+| _grav_ | Grave and `~`       |
+| _caps_ | Caps Lock           |
+| _tab_  | Tab                 |
+| _spc_  | Spacebar            |
+| _ent_  | Return              |
+| _del_  | Delete              |
+| _esc_  | Escape              |
+| _bspc_ | Delete              |
+| _home_ | Home                |
+| _end_  | End                 |
+| _pgup_ | Page Up             |
+| _pgdn_ | Page Down           |
+| _left_ | Left Arrow          |
+| _down_ | Down Arrow          |
+| _paus_ | Pause               |
+| _ins_  | Insert              |
+| _sclk_ | Scroll Lock         |
+| _prnt_ | Print Screen        |
+| _rght_ | Right Arrow         |
+| _up_   | Up Arrow            |
+| _nmlk_ | Num Lock            |
+| _mute_ | Mute                |
+| _vol+_ | Volume Up           |
+| _vol-_ | Volume Down         |
+| _plpa_ | Play / Pause        |
+| _lshf_ | Left Shift          |
+| _rshf_ | Right Shift         |
+| _lctr_ | Left Control        |
+| _rctr_ | Right Control       |
+| _lalt_ | Left Alt            |
+| _ralt_ | Right Alt           |
+| _lwin_ | Left Gui            |
+| _rwin_ | Right Gui           |
+| _keys_ | Keypad Layer Shift  |
+| _keyt_ | Keypad Layer Toggle |
+| _fn1s_ | FN1 Layer Shift     |
+| _fn1t_ | FN1 Layer Toggle    |
+| _fn2s_ | FN2 Layer Shift     |
+| _fn2t_ | FN2 Layer Toggle    |
+| _fn3s_ | FN3 Layer Shift     |
+| _fn3t_ | FN3 Layer Toggle    |
+| _hk1_  | Hotkey 1            |
+| _hk2_  | Hotkey 2            |
+| _hk3_  | Hotkey 3            |
+| _hk4_  | Hotkey 4            |
 
 ## Contributing
 
