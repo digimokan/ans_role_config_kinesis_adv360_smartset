@@ -1,0 +1,12 @@
+- name: "Create '{{ script_path }}' utility script"
+  ansible.builtin.template:
+    dest: "{{ script_path }}"
+    src: "utility_script.j2"
+    owner: 'root'
+    mode: '755'
+    force: true
+  vars:
+    script_path: "/usr/local/bin/{{ cfg_kinesis_adv360_utility_script_cmd }}"
+  become: true
+  become_user: root
+

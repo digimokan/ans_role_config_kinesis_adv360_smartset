@@ -1,0 +1,3 @@
+# command to execute to run the utility script (provided by this role)
+cfg_kinesis_adv360_utility_script_cmd: 'do_kinesis_adv360.sh'
+

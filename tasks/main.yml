@@ -1,0 +1,3 @@
+- name: "Configure Kinesis Advantage360"
+  ansible.builtin.include_tasks: configure/main.yml
+

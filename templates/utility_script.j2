@@ -1,0 +1,242 @@
+#!/bin/sh
+# vim: set filetype=sh:
+
+################################################################################
+# Purpose:   Provide helper script for programming an attached Kinesis
+#            Advantage360 keyboard.
+# Args/Opts: See usage (run with -h option).
+# Meta:      Script installed by ansible {{ role_name | basename }}.
+# Style:     ENV_VAR, GLOBAL_VAR, GLOBAL_READONLY_VAR, func_local_var, my_func
+# Refs:      https://kinesis-ergo.com/support/kb360/
+################################################################################
+
+# GLOBAL VARS:
+
+# Constants
+PROG_NAME="$(basename "${0}")"
+readonly PROG_NAME
+LAYOUT_TEMP_FILE_PATH="/tmp/kinesis_adv360_templayout.txt"
+readonly LAYOUT_TEMP_FILE_PATH
+
+# Mutable User Cmd Option Selections
+PRINT_HELP_MENU='false'
+PROGRAM_KEYMAPS='false'
+
+# Mutable User Options
+VDRIVE_DEVICE_PATH=""
+
+# LOCAL FUNCTIONS:
+
+print_usage() {
+  prog_name_num_chars="$(printf "%s" "${PROG_NAME}" | wc -m)"
+  leading_indent=''
+  i=0
+  while [ "${i}" -lt "${prog_name_num_chars}" ]; do
+    leading_indent="${leading_indent} "
+    i=$((i + 1))
+  done
+
+  printf "USAGE:\n"
+  printf "  %s  -h\n" "${PROG_NAME}"
+  printf "  %s  -k  -D <path_to_vdrive>\n" "${PROG_NAME}"
+  printf "OPTIONS:\n"
+  printf "  -h, --help\n"
+  printf "      print this help message\n"
+  printf "  -k, --program-keymaps\n"
+  printf "      program keymaps onto attached keyboard\n"
+  printf "  -D <path_to_vdrive>, --vdrive=<path_to_vdrive>\n"
+  printf "      path to mounted v-Drive (e.g. \"/media/ADV360\")\n"
+  printf "EXIT CODES:\n"
+  printf "    0  ok\n"
+  printf "    1  keyboard programming error\n"
+  printf "  255  usage or options error\n"
+}
+
+get_cmd_opts() {
+  while getopts ':hkD:-:' option; do
+    short_opt_arg="${OPTARG}"
+    case "${option}" in
+      h)  handle_print_help_menu ;;
+      k)  handle_program_keymaps ;;
+      D)  handle_vdrive "${short_opt_arg}" ;;
+      -)  long_opt_name="${OPTARG}"
+          long_opt_arg="${OPTARG#*=}"
+          case ${long_opt_name} in
+            help)               handle_print_help_menu ;;
+            help=*)             handle_illegal_long_option_arg "${long_opt_name}" ;;
+            program-keymaps)    handle_program_keymaps ;;
+            program-keymaps=*)  handle_illegal_long_option_arg "${long_opt_name}" ;;
+            vdrive=?*)          handle_vdrive "${long_opt_arg}" ;;
+            vdrive*)            handle_missing_long_option_arg "${long_opt_name}" ;;
+            '')                 break ;; # non-option arg starting with '-'
+            *)                  handle_unknown_option "${long_opt_name}" ;;
+          esac ;;
+      \?) handle_unknown_option "${short_opt_arg}" ;;
+    esac
+  done
+}
+
+exit_with_cleanup() {
+  err_code="${1}"
+  exit "${err_code}"
+}
+
+print_err_msg() {
+  err_msg="${1}"
+  printf "ERROR:\n%s: %s\n" "${PROG_NAME}" "${err_msg}"
+}
+
+quit_with_err_msg() {
+  err_msg="${1}"
+  err_code="${2}"
+  print_err_msg "${err_msg}"
+  exit_with_cleanup "${err_code}"
+}
+
+try_silent_with_exit() {
+  cmd="${1}"
+  err_msg="${2}"
+  err_code="${3}"
+
+  eval "${cmd}"
+  exit_code="${?}"
+  if [ "${exit_code}" != 0 ]; then
+    quit_with_err_msg "${err_msg}" "${err_code}"
+  fi
+}
+
+try_silent_print_with_exit() {
+  cmd="${1}"
+  op_descrip="${2}"
+  err_code="${3}"
+
+  printf "Now %s with \"%s\"...\n" "${op_descrip}" "${cmd}"
+  err_msg="error ${op_descrip}"
+  try_silent_with_exit \
+    "${cmd}" \
+    "${err_msg}" "${err_code}"
+}
+
+handle_unknown_option() {
+  short_opt_letter_or_long_opt_name="${1}"
+  err_msg="unknown option \"${short_opt_letter_or_long_opt_name}\""
+  quit_with_err_msg "${err_msg}" 255
+}
+
+handle_illegal_long_option_arg() {
+  long_opt_name="${1}"
+  err_msg="illegal argument in \"${long_opt_name}\""
+  quit_with_err_msg "${err_msg}" 255
+}
+
+handle_missing_long_option_arg() {
+  long_opt_name="${1}"
+  err_msg="missing argument for option \"${long_opt_name}\""
+  quit_with_err_msg "${err_msg}" 255
+}
+
+handle_print_help_menu() {
+  if [ "${PROGRAM_KEYMAPS}" = 'true' ]; then
+    quit_with_err_msg "mutually exclusive options selected" 255
+  fi
+  PRINT_HELP_MENU='true'
+}
+
+handle_program_keymaps() {
+  if [ "${PRINT_HELP_MENU}" = 'true' ]; then
+    quit_with_err_msg "mutually exclusive options selected" 255
+  fi
+  PROGRAM_KEYMAPS='true'
+}
+
+handle_vdrive() {
+  VDRIVE_DEVICE_PATH="${1}"
+}
+
+validate_vdrive_subdir_exists() {
+  subdir_name="${1}"
+
+  full_subdir_path="${VDRIVE_DEVICE_PATH}/${subdir_name}"
+
+  try_silent_with_exit \
+    "test -d ${full_subdir_path}" \
+    "\"${full_subdir_path}\" dir must exist on the mounted v-Drive" 255
+}
+
+check_vdrive_option() {
+  if [ "${VDRIVE_DEVICE_PATH}" = '' ]; then
+    quit_with_err_msg "\"--vdrive\" option must be specified" 255
+  fi
+
+  validate_vdrive_subdir_exists "firmware"
+  validate_vdrive_subdir_exists "layouts"
+  validate_vdrive_subdir_exists "lighting"
+  validate_vdrive_subdir_exists "settings"
+}
+
+write_keymap_layout_to_temp_file() {
+  cat << EOF > "${LAYOUT_TEMP_FILE_PATH}"
+<base>
+[hk1]>[home]
+[hk2]>[end]
+[hk3]>[pgup]
+[hk4]>[pgdn]
+[lshf]>[keys]
+[rshf]>[prnt]
+[up]>[down]
+[down]>[up]
+[lctr]>[lwin]
+[rctr]>[rwin]
+[lalt]>[lshf]
+[rwin]>[rshf]
+[home]>[lctr]
+[pgup]>[rctr]
+[end]>[lalt]
+[pgdn]>[ralt]
+<keypad>
+<function1>
+<function2>
+<function3>
+EOF
+}
+
+do_print_help_menu() {
+  print_usage
+}
+
+copy_temp_keymap_layout_to_vdrive() {
+  layout_file_path="${VDRIVE_DEVICE_PATH}/layouts/layout1.txt"
+
+  try_silent_print_with_exit \
+    "cp -f \"${LAYOUT_TEMP_FILE_PATH}\" \"${layout_file_path}\"" \
+    "copying new keymap layout to keyboard v-Drive" 1
+
+  printf "New keymap layout/profile copied to Profile 1.\n"
+  printf "Ensure Profile 1 is activated by pressing [SmartSet + 1].\n"
+  printf "You may unmount the v-Drive by pressing [SmartSet + v-Drive].\n"
+}
+
+do_program_keymaps() {
+  check_vdrive_option
+  write_keymap_layout_to_temp_file
+  copy_temp_keymap_layout_to_vdrive
+}
+
+# MAIN SCRIPT:
+
+main() {
+  get_cmd_opts "$@"
+
+  if [ "${PRINT_HELP_MENU}" = 'true' ]; then
+    do_print_help_menu
+  elif [ "${PROGRAM_KEYMAPS}" = 'true' ]; then
+    do_program_keymaps
+  else
+    quit_with_err_msg "no valid option selected" 255
+  fi
+
+  exit_with_cleanup 0
+}
+
+main "$@"
+

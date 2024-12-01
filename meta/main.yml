@@ -1,0 +1,22 @@
+galaxy_info:
+  author: digimokan
+  description: "Configure an attached Kinesis Advantage360 keyboard with custom keymaps"
+  license: "MIT"
+  min_ansible_version: 2.7
+  platforms:
+    - name: Archlinux
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+    - name: FreeBSD
+      versions:
+        - all
+  galaxy_tags:
+    - archlinux
+    - ubuntu
+    - freebsd
+    - Kinesis
+    - Advantage360
+
