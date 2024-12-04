@@ -98,10 +98,45 @@ Macro remap of left shift key to produce an underscore:
 {lshf}>{-rshf}{hyph}{+rshf}
 ```
 
+Macro remap with speed setting (set `s1` to `s9`):
+
+```
+{lctr}{hk4}>{s5}{b}{a}{s}{h}
+```
+
+Macro remap played `x` number of times (default plays continuously on key down).
+Note: this can fix macros that inadvertently fire too many times:
+
+```
+{hk1}>{x3}{vol+)
+```
+
+Macro remap with delays between keys (set `d001` to `d999` in millisec):
+
+```
+{lctr}{hk4}>{b}{d300}{a}{d600}{s}{d900}{h}
+```
+
+Key remap for CAPSLOCK on tap, ALT when pressed more than 0.5 sec:
+
+```
+[lalt]>[caps][t&h500][lalt]
+```
+
 ### Commonly Remapped Key Names
 
 | Key    | Description         |
 | :---   | :---                |
+| _1_    | `1` and `!`         |
+| _2_    | `2` and `@`         |
+| _3_    | `3` and `#`         |
+| _4_    | `4` and `$`         |
+| _5_    | `5` and `%`         |
+| _6_    | `6` and `^`         |
+| _7_    | `7` and `&`         |
+| _8_    | `8` and `*`         |
+| _9_    | `9` and `(`         |
+| _0_    | `0` and `)`         |
 | _hyph_ | `-` and `_`         |
 | _eql_  | `=` and `+`         |
 | _obrk_ | `[` and `{`         |
