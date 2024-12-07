@@ -159,14 +159,14 @@ Key remap for CAPSLOCK on tap, ALT when pressed more than 0.5 sec:
 | _end_  | End                 |
 | _pgup_ | Page Up             |
 | _pgdn_ | Page Down           |
-| _left_ | Left Arrow          |
+| _up_   | Up Arrow            |
 | _down_ | Down Arrow          |
+| _left_ | Left Arrow          |
+| _rght_ | Right Arrow         |
 | _paus_ | Pause               |
 | _ins_  | Insert              |
 | _sclk_ | Scroll Lock         |
 | _prnt_ | Print Screen        |
-| _rght_ | Right Arrow         |
-| _up_   | Up Arrow            |
 | _nmlk_ | Num Lock            |
 | _mute_ | Mute                |
 | _vol+_ | Volume Up           |
